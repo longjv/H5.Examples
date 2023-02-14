@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{background: #C8C8C8;}
+        tr{height: 40px;}
+        table{width: 915px;border-collapse: collapse;}
+        tbody tr:nth-child(odd){height: 40px;background: #f3f3f3;}
+        tbody tr:nth-child(even){height: 40px;background: #fff;}
+    </style>
+</head>
+<body>
+    <div class="box" style="width: 1021px;height: 522px;background: #222D32;margin: auto;position: relative;">
+    <div class="box2" style="width: 915px;height: 477px;background: #FFFFFF;position: absolute;bottom: 1px;right: 0;">
+    <table>
+        <thead>
+            <tr>
+             <th>会员卡号</th>
+             <th>会员名称</th>
+             <th>单号</th>
+             <th>产品名称</th>
+             <th>扣除数量</th>
+             <th>剩余数量</th>
+             <th>扣除时间</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <div class="box3" style="width: 915px;height: 30px;position: absolute;bottom: 6px;">
+        <button id="prev" style="float: left;border: 1px solid #000;" >上一页</button>
+        <span id="text" style="float: left;width: 30px;height: 25px;text-align: center;">1</span>
+        <button id="next" style="float: left;border: 1px solid #000;">下一页</button>
+        &nbsp&nbsp&nbsp&nbsp&nbsp共<span id="count">5</span>条
+        &nbsp&nbsp&nbsp&nbsp&nbsp
+        <select id="size">
+            <option value="5">5条/页</option>
+            <option value="10">10条/页</option>
+            <option value="15">15条/页</option>
+            <option value="20">20条/页</option>
+        </select>
+    </div>
+    </div>
+    </div>
+</body>
+
+<script>
+    var arr = [
+        {
+            phone:"18976290300",
+            name:"周",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"1",
+            idd:"9",
+            time:"2021-06-12 10:15:32"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"2",
+            idd:"8",
+            time:"2021-06-12 10:15:13"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"3",
+            idd:"9",
+            time:"2021-06-12 10:14:58"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"4",
+            idd:"9",
+            time:"2021-06-12 10:14:58"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"5",
+            idd:"9",
+            time:"2021-06-12 10:14:58"
+        },
+        {
+            phone:"18976290300",
+            name:"周",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"6",
+            idd:"9",
+            time:"2021-06-12 10:15:32"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"7",
+            idd:"8",
+            time:"2021-06-12 10:15:13"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"8",
+            idd:"9",
+            time:"2021-06-12 10:14:58"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"9",
+            idd:"9",
+            time:"2021-06-12 10:14:58"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"10",
+            idd:"9",
+            time:"2021-06-12 10:14:58"
+        },
+        {
+            phone:"13601437865",
+            name:"汇通达",
+            dan:"XF202106120000032",
+            na:"钢琴课",
+            id:"11",
+            idd:"9",
+            time:"2021-06-12 10:14:58"
+        },
+    ]
+</script>
+<script>
+    var tbody = document.querySelector("tbody")
+    var num = 1, count = 5;
+    var prev = document.getElementById('prev');
+    var next = document.getElementById('next');
+    var numText = document.getElementById('text');
+    var countText = document.getElementById('count');
+    var size = document.getElementById('size');
+    
+    prev.addEventListener('click',function () {
+        // 当前页不能为0
+        if (num>1) {
+            num--;
+            numText.innerHTML = num;
+            creatData();
+        }
+    })
+    next.addEventListener('click',function () {
+        // console.log(arr.length / count);
+        // 判断当先页不能小于总页数
+        if (num < Math.ceil(arr.length / count) ) {
+            num++;
+            numText.innerHTML = num;
+            creatData();
+        }
+    })
+    // 监听选项框
+    size.addEventListener('change',function (e) {
+        count = +this.value;
+        num = 1;
+        numText.innerHTML = num;
+        creatData()
+    })
+    init(arr);
+    function init(arr){
+        countText.innerHTML = arr.length;
+        creatData();
+    }
+    // 筛选每页要显示的数据
+    function creatData() {
+        console.log(arr,(num-1)*count,(num-1)*count+count);
+        var list = arr.slice((num-1)*count,num*count);
+        view(list);
+    }
+    // 渲染
+    function view(list) {
+        console.log(list);
+        var a = list.reduce(function(n,item,index){
+            return n+=`
+            <tr>
+             <td>${item.phone}</td>
+             <td>${item.name}</td>
+             <td>${item.dan}</td>
+             <td>${item.na}</td>
+             <td>${item.id}</td>
+             <td>${item.idd}</td>
+             <td>${item.time}</td>
+            </tr>
+            `
+        },"")
+        tbody.innerHTML = a
+    }
+
+</script>
+</html>

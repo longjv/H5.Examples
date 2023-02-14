@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# 复制文件进入文件夹
-ls -R  *.html > examples.txt
